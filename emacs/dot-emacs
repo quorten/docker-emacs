@@ -1,0 +1,38 @@
+
+;; (global-set-key "C-x <left>" 'previous-buffer)
+;; (global-set-key "C-x <right>" 'next-buffer)
+
+;; (require 'w3m-load)
+(require 'tabbar)
+(require 'tty-format)
+(add-hook 'find-file-hooks 'tty-format-guess)
+;; (require 'cedet)
+;; (require 'rudel-loaddefs)
+
+(defun eshell/clear ()
+  (facemenu-remove-special (point-min) (point-max))
+  (erase-buffer))
+
+(defun eshell/superize ()
+  "Give Eshell super powers of convenience."
+  (eshell/export "TERM=eterm-color")
+  ;; Only necessary if you normally start Emacs as a non-server.
+  ;; (server-start)
+  (eshell/export "EDITOR=emacsclient")
+  (eshell/export "PAGER=~/emacs/ecpager.sh")
+  (eshell-ffap-hook))
+
+(defun eshell-ffap-hook ()
+  "Find file at point in Eshell.  Slightly less ideal than having
+clickable links for files from ls-listing, but it mostly gets the
+point"
+  (local-set-key "\C-c\C-v" 'find-file-at-point))
+
+;; (defun my-shell-hook ()
+;;   (local-set-key "\C-cl" 'erase-buffer))
+
+(defun msvc-file ()
+  (interactive)
+  (customize-set-value 'tab-width 4))
+
+;; (add-hook 'shell-mode-hook 'my-shell-hook)
